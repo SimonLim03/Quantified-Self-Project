@@ -3,6 +3,8 @@
 ## Author
 Name: Simon Lim
 
+![image](https://github.com/SimonLim03/Quantified-Self-Project/assets/150989115/7496adef-d6e0-4986-96ba-866a692f78d2)
+
 ## Description
 - The Quantified Self (QS) is the process of collecting, monitoring, quantifying and self-tracking various aspects of daily life through various technologies, such as wearable devices and applications (Swan, 2013). Quantified self-tracking has continuously been a trending scientific approach since the rise of technology and digitization, which has enabled us to measure and collect sufficient amounts of data in terms of our health, emotions, habits and diet in our daily life efficiently and rapidly. In doing so, QS aims at improving individual’s mental health and physical and emotional productivity and performance and as well as providing insights and further orientation to individuals’ own life by collecting and analyzing relevant data collected using technology (Lupton, 2016).
 
