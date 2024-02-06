@@ -1,0 +1,391 @@
+---
+title: "DSI Quantified Self Individual Report"
+author: "22461225 Simon Lim"
+date: "07/11/2022" 
+output:
+  bookdown::html_document2:
+    fig_caption: yes
+    force_captions: yes
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    collapsed: yes
+    highlight: pygments
+    number_sections: yes
+    df_print: kable
+    code_folding: hide
+    theme:
+      version: 4
+editor_options:
+  chunk_output_type: inline
+bibliography: ["packages.bib","references.bib"]
+link-citations: true
+---
+
+```{r setup, include=FALSE}
+#install.packages("pacman")
+#ignore this chunk
+library(pacman)
+p_load(bs4cards, tidyverse, here, bslib, emo)
+
+```
+
+```{r global-options, include=FALSE}
+#ignore this chunk
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=TRUE, warning=FALSE, message=FALSE)
+#don't print warnings or messages to output, but do include the code chunks (collapsed by default)
+
+```
+
+# Introduction
+The Quantified Self (QS) is the process of collecting, monitoring, quantifying and self-tracking various aspects of daily life through various technologies, such as wearable devices and applications (Swan, 2013). Quantified self-tracking has continuously been a trending scientific approach since the rise of technology and digitization, which has enabled us to measure and collect sufficient amounts of data in terms of our health, emotions, habits and diet in our daily life efficiently and rapidly. In doing so, QS aims at improving individual's mental health and physical and emotional productivity and performance and as well as providing insights and further orientation to individuals' own life by collecting and analyzing relevant data collected using technology (Lupton, 2016). 
+
+In terms of the following context, this project explores the procedure of collecting two group-based data and one individual-based data, data collection methodology, storage of those data and data quality. Furthermore, this project analyses data collected from our small group and individual, using visualization techniques and subsequently evaluates and reflect about data ethics and privacy issues and limitations and reflection of QS project. In particular, the project includes some appendices, supporting additional information of contents and the ODI Data Ethic Canvas. The fundamental purpose of the project is to provide a broad understanding of QS and its application in wider data science practice. 
+
+
+# Data Collection and Integration
+Our group consists of Data Science Innovation postgraduate students and collected daily photos of worn clothing data (unstructured data) and digital usage (structured data).
+Those data started being collected from 19th August 2022 to 26th October 2022. In addition, individual data was diary data (Unstructured data) collected from 12st September 2022 to 09 October 2022.
+
+## Trigger and Rationale
+
+### Small Group Data - DSI Dozen
+While our group discussed about many potential data, which can provide many aspects of our daily life, our DSI DOZEN group objective was to find contemporary trends through our daily life. In this regard, we first decided to collect data regarding websites, internet domains and applications (digital) usages, which can directly illustrate the current trend in our daily life. However, collecting this sort of data can lead to a privacy issue, which involves displaying specific URLs/activities names. Hence, we decided to remove URLs and application names to avoid this issue. Nevertheless, we could still find the contemporary trend by collecting specific categories and types of activity regarding websites and applications. The tool used to collect data was RescueTime, which enabled to collect a sufficient amounts of website and program usage from mobile phone and computer. We chose RescueTime tool to collect our daily digital usage, as it enabled us to collect passively over weeks and directly export a massive amounts of data as a CSV file.
+
+In addition, our group was also interested in finding current trends of fashions. Hence, we came up with ideas to collect our data by taking daily photo of worn clothing and used visual fashion analysis tool to find attributes/features of our daily clothing choices. In this regard, we believed that it would be easy to collect data by taking a daily photo and accurate as well if we use external visual fashion tool. In terms of data collection method, the tool used to collect data was MMFashion, which could identify attributes from clothing photos and isolate upper and lower body clothing articles for increasing accuracy (Liu, Li, Wang & Liu, 2020). Subsequently, we also came up with suggestions if daily clothing choices can possibly predict daily emotion through text mapping of daily clothing features. Our group was particularly inspired by NRC Word-Emotion Association Lexicon, which is a list of English words, providing eight basic emotions and two sentiments for English words (They can also provide the extent of Valance, Arousal, Dominance (VAD)) (Mohammad & Turney, 2011). Hence, we also decided to measure our daily emotion and fashion attributes simultaneously using two tools, which are MMFashion and word-emotion association lexicon.  
+ 
+
+### Individual data
+Individual data collected involved daily diary written by myself. Personally, I, as an individual, was also inspired by Word-Emotion Association Lexicon and wanted to dig more into measuring daily emotion in a different way. While I and group member predicted that daily clothing choices can possibly affect daily emotions, I also assumed that days and daily different circumstances are also likely to influence daily emotions. For example, research suggested that Monday is likely to be involved with more negative emotions, while weekends are more likely to be associated with positive emotions rather than negative emotions (Helliwell & Wang, 2015). In terms of data collection, the selected tool was LaXmo, which converts English words into ten basic emotions, similar as word-emotion association lexicon. I wrote detailed data manually in CSV format, including ten basic emotions and their average.        
+
+
+## Collection Methodology
+
+```{r}
+library(readr)
+library(formattable)
+my_data <- read.csv("Table.csv", header = TRUE, sep = ",")
+table <- formattable(my_data)
+table
+```
+Table 1. Summary of Data Collection
+
+
+## Data Storage and Sharing
+All data were stored and shared through UTS Google Drive. Google Drive ensures to keep data secure and efficiently enables to record, update and share all group-based data. Finally, it also allows all group members to export final merged group data for data analysis. Any other third parties were not allowed to record or export (except UTS Lecturers).
+
+## Data Quality (See Appendix)
+In terms of data quality, data quality has been examined based on the external resource, "The Quartz guide to bad data" (Yanofsky, 2018), which guides reference to problems with quality of data and suggests solution for potential issues of data quality. 
+Accordingly, there were various data quality issues in the process of data collections:
+
+* human-made errors
+* Ambiguous data categorization
+* missing data
+* measurement errors
+* duplicated values 
+* a lack of accuracy and reliability in data samples created from data tools
+
+They all contribute to limitations of the sampling data. Hence, data cleaning phase was necessary to reduce errors in data analysis.
+Data quality exploration and cleaning phase are shown in Appendix. . 
+
+Daily Photo Dataset:
+
+* Primarily, there was a challenge with an accuracy of MMFashion visual fashion analysis tool, in which many images (93 samples) with different fashions were treated the same and resulted in same attributes and fashion features (i.e. many values in rows are duplicated).  
+* There were only 7 group members, who had worn similar or same kind of clothes features everyday. Hence, data samples were too narrow and there were many duplicate samples.
+* There were few missng values (21) in dataset, caused by human manual entry error(shown in Appendix).
+* Valence, Arousal and Dominance (VAD) were successfully measured without any outlier based on attribute models of photos (text mapping). 
+
+Digital Usage Dataset:
+
+* An enriched data samples were collected with few missing values and there were some duplicate values and measurement errors (shown in Appendix).
+* Few errors in category and activity columns, which included uncategorized category and numeric values.
+* Time column was removed, as it is not necessary in data analysis. 
+* There were 616 missing values, caused by application errors (assumed that app was turned off during activity). There were a plenty of samples (82635 rows), hence did not remove missing values.
+
+
+Diary Dataset:
+
+* There was no missing values and outlier, as data were manually recorded.
+* There were very few daily diaries converting into tiny number or zero of emotion measures.  
+* Diary texts were also removed to protect privacy. 
+* Rounded to 3 decimal places for easier understanding of data.
+
+
+
+# Data Analysis
+
+Three different datasets were analysed separately and there were some significant results from data analysis.
+All anaysis of datasets were done individually.
+
+## Daily Clothing Photos - Insights on Trends of Fashions
+
+There are five fashion attribute models, which display particular materials or features of cloth for upper and lower parts. Materials of cloth include denim, floral, knit, lace, leather, maxi, print, stripe, striped, wash and sleeve.
+
+
+```{r}
+library(ggplot2)
+my_data <- read.csv("clothing_dataset.csv", header = TRUE, sep = ",")
+qplot(x=att_model_0, fill=member, data=my_data) + ggtitle("Fashion Upper Feature 1") + theme(plot.title = element_text(size=22))
+```
+Figure 1: Fashion Upper Feature 1
+```{r}
+qplot(x=att_model_1, fill=member, data=my_data) + ggtitle("Fashion Upper Feature 2") + theme(plot.title = element_text(size=22))
+```
+Figure 2: Fashion Upper Feature 2
+
+* The two graphs clearly reveal that contemporary trends for fashion upper part features are highly involved with sleeve and knit. 
+* Sleeve and knit are both soft materials and very comfortable to wear. It indicates that people prefer to wear comfortable and clothes that are very lightweight require little care.
+
+
+```{r}
+qplot(x=att_model_3, fill=member, data=my_data) + ggtitle("Fashion Lower Feature 1") + theme(plot.title = element_text(size=22))
+```
+Figure 3: Fashion Lower Feature 1
+```{r}
+qplot(x=att_model_4, fill=member, data=my_data) + ggtitle("Fashion Lower Feature 2") + theme(plot.title = element_text(size=22))
+```
+Figure 4: Fashion Lower Feature 2
+
+Fashion attributes for lower parts are relatively broad, compared to upper parts attributes. 
+They indicate that denim is the most closest attribute to current trend. Denim is the main material of jeans. Current trends still stick with jeans (Jeans have been one of trendy fashion for long times).
+
+Other than that, lace and maxi are top second and third fashion attributes. Lace and maxi are clothes, which can cover both upper and lower parts and preferably worn by women.
+Therefore, those results show eople prefer to wear neat, casual, comfortable and stylish at the same time. 
+
+
+## Daily Clothing Photos - Any Correlation between Upper and Lower Attributes and Fashion Attributes and Emotion?
+
+
+```{r}
+library(ggplot2)
+my_data <- read.csv("clothing_dataset.csv", header = TRUE, sep = ",")
+qplot(x=att_model_0, y=att_model_3, data=my_data, colour=att_model_3) + geom_smooth() + facet_grid(~member) + ggtitle("Correlation of Upper and Lower by Each Member") + theme(plot.title = element_text(size=20)) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ # + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+Figure 5: First Scatterplots of Upper and Lower Attributes 
+
+```{r}
+qplot(x=att_model_1, y=att_model_4, data=my_data, colour=att_model_4) + geom_smooth() + facet_grid(~member) + ggtitle("Correlation of Upper and Lower by Each Member") + theme(plot.title = element_text(size=22)) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+Figure 6: Second Scatterplots of Upper and Lower Attributes
+
+* All of group members have worn sleeve for upper and denim for lower. 
+* Also, most of our group members have worn knit for upper and denim for lower and knit for upper and lace for lower.
+* However, it was difficult to find any insightful correlations between upper and lower attributes.
+
+
+```{r}
+#qplot(x=member, y=arousal, colour=att_model_0, data=my_data) +geom_point() + ggtitle("Scatterplot of carat and price by clarity and color")
+qplot(x=member, y=valence, data=my_data) + geom_smooth() + facet_grid(~att_model_1) + ggtitle("Relationship between valence and upper attributes") + theme(plot.title = element_text(size=20))
+```
+Figure 7: Relationship between valence and upper attributes
+```{r}
+qplot(x=member, y=valence, data=my_data) + geom_smooth() + facet_grid(~att_model_4) + ggtitle("Relationship between valence and lower attributes") + theme(plot.title = element_text(size=20))
+```
+Figure 8: Relationship between valence and lower attributes
+
+```{r}
+qplot(x=member, y=arousal, data=my_data) + geom_smooth() + facet_grid(~att_model_1) + ggtitle("Relationship between arousal and upper attributes") + theme(plot.title = element_text(size=20))
+```
+Figure 9: Relationship between arousal and upper attributes
+
+```{r}
+qplot(x=member, y=arousal, data=my_data) + geom_smooth() + facet_grid(~att_model_4) + ggtitle("Relationship between arousal and lower attributes") + theme(plot.title = element_text(size=22))
+```
+Figure 10: Relationship between arousal and lower attributes
+
+```{r}
+qplot(x=member, y=dominance, data=my_data) + geom_smooth() + facet_grid(~att_model_1) + ggtitle("Relationship between dominance and upper attributes") + theme(plot.title = element_text(size=20))
+```
+Figure 11: Relationship between dominance and upper attributes
+```{r}
+qplot(x=member, y=dominance, data=my_data) + geom_smooth() + facet_grid(~att_model_4) + ggtitle("Relationship between dominance and lower attributes") + theme(plot.title = element_text(size=20))
+```
+Figure 12: Relationship between dominance and lower attributes
+
+* According to a recent research, people who are happy and positive are more likely to wear lace or maxi-based dress or clothes, while 
+51% of women would wear jeans when they feel depressed and negative emotions and 33% of women would wear jeans when they feel positive emotions (Weaver, 2018).
+* Figures indicate that the relationship between emotion and fashion attributes are ambiguous and hence difficult to interpret, as emotion measurement VAD scales are very narrowly distributed for attributes. 
+
+## Digital Usage - Current Trends of Digital Web/Application
+
+Due to privacy and ethical considerations, I analyzed this dataset to predict trends of website/application category and spent times. 
+The results are also biased by participants' status (All participants are university postgraduate students).
+
+```{r}
+my_data1 <- read.csv("rescuetime_dataset.csv", header = TRUE, sep = ",")
+qplot(x=category, data=my_data1) + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + ggtitle("Trend of digital usage by category") + theme(plot.title = element_text(size=20))
+
+```
+Figure 13: Trends of Digital Usage by Category
+
+Figure 13 shows that referencing & learning and utilities websites/applications, followed by communication, are the most used within our group.
+However, considered that we are all university students, the result does not indicate overall trends of digital usages. 
+
+
+```{r}
+qplot(x=minutes, y=category, data=my_data1, colour=member) + ggtitle("Minutes per category usage ") + theme(plot.title = element_text(size=20))
+```
+Figure 14: Minutes per Category usage
+
+```{r}
+qplot(x=category, y=minutes, data=my_data1, colour=member ) + ggtitle("Minutes per category usage by each member") +facet_wrap(~member) +theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + theme(plot.title = element_text(size=20))
+```
+Figure 15: Minutes per category usage by each member
+
+Figure 14 and Figure 15 shows that our group members mostly spent times on Entertainment websites/applications (except member c).
+There were many uncategorised URLs/applications, which we spent a plenty of times. This issue indicates potential limitations to identify and clarify overall trends of our digital usages. 
+
+
+
+## Individual diary dataset - Daily Emotion Insights by Day of the Week
+
+Daily emotions are categorised by 10 emotions, including anger, anticipation, disgust, fear, joy, negative, positive, sadness, surprise, trust. 
+The dataset includes daily emotions for three weeks and many of emotions were not showing up on some days. Hence, considered its sample size and errors, the dataset is considered to be not accurate.
+Nevertheless, the results show certain patterns of daily emotions weekly each day.  
+
+```{r}
+my_data2 <- read.csv("Diary_dataset.csv", header = TRUE, sep = ",") 
+qplot(x=emotion, y=day, data=my_data2) + ggtitle("Emotion Distribution by Day of the Week") + theme(plot.title = element_text(size=20))
+```
+Figure 16: Emotion Distribution by Day of the Week
+
+```{r}
+ggplot(my_data2, aes(x=average, fill= emotion)) + geom_histogram() + facet_wrap(~day) + ggtitle("Emotion Distribution Average by Day of the Week") + theme(plot.title = element_text(size=20))
+```
+Figure 17: Emotion Distribution Average by Day of the Week
+
+Figure 16 and 17 show my daily emotion patterns distributed by each day. The results show some clear patterns. 
+
+* Emotions are widely distributed over days of the weeks. 
+* Two Monday emotions were anger and sadness and Sunday emotion were very positive. 
+* Tuesday, Wednesday and Thursday were mix of positive and negative emotions.
+* Fridays were generally associated with joyful and positive emotions. 
+
+
+```{r}
+ggplot(data=my_data2) + geom_boxplot(aes(x=day, y=positive, fill=day)) + ggtitle("Positive Emotion Distribution by Day of the Week") + theme(plot.title = element_text(size=20))
+```
+Figure 18: Positive Emotion Distribution by Day of the Week
+
+```{r}
+ggplot(data=my_data2) + geom_boxplot(aes(x=day, y=negative, fill=day)) + ggtitle("Negative Emotion Distribution by Day of the Week") + theme(plot.title = element_text(size=20))
+```
+Figure 19: Negative Emotion Distribution by Day of the Week
+
+Many previous research showed that Monday is likely to be involved with more negative emotions, while weekends are more likely to be associated with positive emotions rather than negaitive emotions (Helliwell & Wang, 2015). The results are consistent with previous results. Figure 18 shows that two highest positive emotions days were Saturday (0.6) and Sunday (0.625) with low positive on Monday (0.11), while figure 19 shows that Monday was associated with very negative emotions (around 0.85).
+
+
+
+## Overall Analysis of the Quantifed Self Project
+
+In terms of the analysis conducted above, daily photo dataset showed contemporary trends of fashion attributes to some extent but revealed no distinct correlation between fashion attributes and daily emotion. Nevertheless, it may be useful for fashion businesses and industry.
+Moreover, digital usage dataset showed clear trends of URLs/applications/programs. However, the data was biased due to participants' status (University DSI students). This data can be useful for web application developer or software developers when they refer to trends of digital sources. 
+Finally, diary dataset was based on my daily personal experiences and lives, which were all unstructured data. This data may be used as a reference or evidence for emotion-related researches.   
+
+
+# Discussion
+
+## Ethical considerations and Privacy: Potential Concerns
+
+Open Data Institute's Data Ethics Canvas (ODI) has been completed as a guidelines for risks and considerations of ethical and legal perspectives (See Appendix). However, considered that this project is relatively small QS and difficult to fully complete and answer all aspects of ODI Canvas, some of potential ethical and privacy issues have been mentioned in discussion section. 
+
+Potential ethical and legal concerns in the Quantified Self project are as follows:
+
+* The use of third parties app: There is also a risk regarding the use of application from third parties. That is, regarding digital usage, most of data were collected using RescueTime, which were application installed in mobile phone and computer desktop. For example, there was a case, in which Apple company removed RescueTime application for App store because of its misuse of background location (https://blog.rescuetime.com/rescuetime-for-ios-removed/). As this case emerged, permission to access information to third parties application can result in serious ethical issues.  
+
+* Sensitive data: Daily photos dataset includes group member's taken photo, including face and body of each person. Photos of individuals can be very sensitive data and those photos were  shared in UTS Google Drive 'images' folder. Even though our group members respected each others and are aware of ethical issues and privacy respect and none of our members expressed any incommodity or complains, those photos data can potentially be abused at least. Perhaps, we could alternatively create data and csv files individually and then merge our data in one CSV file. In that way, we could avoid sharing sensitive data (Personal photos). On the other hand, regarding digital usage data, we removed sensitive data (e.g., name of URLs and applications) at the beginning and therefore able to avoid ethical concerns for digital usage data.     
+
+* The risk of re-identification of data: Although our data was de-identified in the process of collecting data by substituting our members' name to fake names, there are some potential possibilities that data can be re-identified. First, we only have 8 members, especially with very small sample sizes for daily photo dataset. In this regard, data regarding photos can possibly be re-identified and revealed in the process of sharing photos and using detailed information of data in reports. In that case, our group promised that personal photos will not be shared outside of our UTS Google Drive.  
+
+## Ethical Considerations: What can be done?
+
+Office of the Australian Information Commissioner (OAIC) and other external resources established some essential ethical approaches and principles to data analytic practices (OAIC, 2019; Floridi & Taddeo, 2016; Schlenker, 2019). 
+
+* It should be ensured that any third parties have a good reputation of privacy practices and should clearly notice which uses and disclosures they agree to and which they do not.
+* In terms of open and transparency, it is vital to carefully check terms and conditions for third parties applications. For every applications, terms and conditions should be outlined in detail in sufficient amounts of lengths, validity and accessibility. 
+* It should be ensured that all data in UTS Google Drive are going to be destroyed after semester for protecting individuals' privacy.
+* As mentioned above, group can avoid sharing sensitive data by creating data and csv files individually and then merging members' data. 
+
+
+## Reflection
+
+At the beginning of QS project, I was unsure about what kind of data I wanted to collect in group and individual and I did not know the potentials of Quantified Self and just considered it as one my important assignments. As I was working on the project continuously, I started to realize that QS can be very potentially helpful in my life, as I have always felt tough on managing my daily life. 
+
+Furthermore, while I was doing the Quantity Self project, I have frequently noticed and realized more about my behaviours and thoughts, which has given me a clear indication of my states and further influenced me to decide what to do. For instance, I wrote my daily diary for my individual data and once I knew how I was feeling on each day, I was able to track myself by balancing my emotions. I was usually involved with negative emotions on Monday but once I recognized that through QS, I think I tried to be more positive by doing things I like or playing. 
+As in my case, I believe QS has many advantages over our daily lives. Accordingly, QS helps us to self-improve one's health and well-beings and as well as assisting to achieve our goals by tracking daily life, with various self-tracking applications. Especially, we are now living in the world where COVID-19 exists since 2019. Many young people have been suffered in those periods mentally, physically and emotionally. Through self-tracking process, we can make our optimal routine and schedules for everyday (Swan, 2013; Lupton, 2016) to improve our well-beings and protect ourselves from mental illness. 
+
+
+
+# Appendices {#AT2def_appendices}
+
+This section explores and summarizes the degree of data quality of datasets.
+
+## Daily Photo Dataset 
+
+* Total 21 missing values were present in valence (7), arousal (7), dominance(7). The issue was caused by human manual entry. 
+* No outlier was presented in dataset.
+* Data quality is not bad.
+
+```{r}
+# Total 21 missing values were present
+colSums(is.na(my_data))
+sum(is.na(my_data))
+```
+```{r}
+library(ggplot2)
+ggplot(my_data, aes(y=valence)) + 
+  geom_boxplot() + ggtitle("Outlier Box Plot for Valence") + theme(plot.title = element_text(size=20))
+ggplot(my_data, aes(y=arousal)) + 
+  geom_boxplot() + ggtitle("Outlier Box Plot for Arousal") + theme(plot.title = element_text(size=20))
+ggplot(my_data, aes(y=dominance)) + 
+  geom_boxplot() + ggtitle("Outlier Box Plot for Dominance") + theme(plot.title = element_text(size=20))
+```
+
+## Digital Usage Dataset
+
+* 616 missing values were presented in minutes column. This issue was caused from RescueTime app erros (e.g., perhaps app was turned off in some cases.)
+* There were no outlier.
+* Considered that sample size was very huge for this dataset, 616 missing values did not considerably influence data quality.
+
+```{r}
+colSums(is.na(my_data1))
+sum(is.na(my_data1))
+```
+## Diary dataset
+
+* No missing values and no outlier because data were manually recorded.
+
+
+## ODI Data Ethics Canvas {#AT2def_ODI}
+
+This section includes Data Ethics Canvas template from the Open Data Institute (ODI, 2019), which shows a broad evaluation regarding data collection, limitation of data and ethical issues considered in data science practice. 
+
+```{r add_ODI_html, out.width="100%", out.height="500px"}
+
+if(knitr::is_html_output()) knitr::include_url("https://docs.google.com/document/d/1mXSSn1M_oO4GJe3HJfV4o2GoPd3ksCh_shzj8LbFxEA/edit")
+
+```
+
+```{r add_ODI_pdf, out.width="100%", out.height="500px"}
+knitr::include_graphics(here::here("C:/Users/y/OneDrive/AT2_default_template/data/DSI_copy_ODI_Data_Ethics_Canvas.pdf"))
+```
+
+# References 
+- Dinbav. (n.d.). Dinbav/lexmo: A python package for classifying emotion. GitHub. Retrieved November 11, 2022, from https://github.com/dinbav/LeXmo 
+- Floridi, L., &amp; Taddeo, M. (2016). What is data ethics? Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences, 374(2083), 20160360. https://doi.org/10.1098/rsta.2016.0360 
+- GGPLOT2 histogram plot : Quick Start Guide - R Software and Data Visualization. STHDA. (n.d.). Retrieved November 11, 2022, from http://www.sthda.com/english/wiki/ggplot2-histogram-plot-quick-start-guide-r-software-and-data-visualization 
+- Haug, A., Zachariassen, F. & Van Liempd, D. 2011, ‘The costs of poor data quality’, Journal of Industrial Engineering and Management, vol. 4, no. 2.
+- Helliwell, J., &amp; Wang, S. (2015). How was the weekend? how the social context underlies weekend effects in happiness and other emotions for US workers. https://doi.org/10.3386/w21374 
+- Liu, X., Li, J., Wang, J., & Liu, Z. (2020). "MMFashion: An Open-Source Toolbox for Visual Fashion Analysis" Multimedia Lab, The Chinese University of Hong Kong https://arxiv.org/pdf/2005.08847.pdf
+- Lupton, D. (2016). The Quantified Self: A Sociology of Self Tracking. Cambridge. UK: Polity Press.
+- Mohammad, Saif M. and Turney, Peter. (2011). "NRC Word-Emotion Association Lexicon" National Research Council Canada http://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm
+- OAIC. (2019). Guide to data analytics and the Australian Privacy Principles. [online] Available at: https://oaic.gov.au/privacy/guidance-and-advice/guide-to-data-analytics-and-the-australian-privacy-principles/.
+- Schlenker, D. L. (2019). The Ethics of Data Science. Towards Data Science.
+- Swan, M. (2013). The Quantified Self: Fundamental Disruption in Big Data Science and Biological Discovery. Big Data, 1(2), 85–99. https://doi.org/10.1089/big.2012.0002
+- The ODI – Open Data Institute (2019). Data Ethics Canvas. https://theodi.org/wp-content/uploads/2019/07/ODI-Data-Ethics-Canvas-2019-05.pdf
+- Weaver, R. (2018, March 7). The link between clothing choices and emotional states. GoodTherapy.org Therapy Blog. Retrieved November 05, 2022, from https://www.goodtherapy.org/blog/link-between-clothing-choices-and-emotional-states-0330124
+- Yanofsky, D. (2018), The Quartz guide to bad data, Github, viewed November 1, 2022, https://github.com/Quartz/bad-data-guide.
+
