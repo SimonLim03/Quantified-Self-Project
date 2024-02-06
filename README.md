@@ -8,4 +8,4 @@ Name: Simon Lim
 
 - In terms of the following context, this project explores the procedure of collecting two group-based data and one individual-based data, data collection methodology, storage of those data and data quality. Furthermore, this project analyses data collected from our small group and individual, using visualization techniques and subsequently evaluates and reflect about data ethics and privacy issues and limitations and reflection of QS project. In particular, the project includes some appendices, supporting additional information of contents and the ODI Data Ethic Canvas. The fundamental purpose of the project is to provide a broad understanding of QS and its application in wider data science practice.
 
-- Refer to the report for the process of data collection, cleaning, analysis, visualization and presentations of the outcomes.
+- Refer to the Quantified-self.html for the entire process of data collection, cleaning, analysis, visualization and presentations of the outcomes.
